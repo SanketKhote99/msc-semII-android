@@ -1,0 +1,294 @@
+slip22
+q1]
+
+activity_main.xml
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="40px"
+        android:weightSum="2" >
+
+        <RadioGroup
+            android:id="@+id/rg1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/radioButton1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="20dp"
+                android:text="Image2" />
+
+            <RadioButton
+                android:id="@+id/radioButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/radioButton1"
+                android:layout_alignBottom="@+id/radioButton1"
+                android:layout_alignParentLeft="true"
+                android:text="Image1" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/rg2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Image3" />
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/radioButton3"
+                android:layout_alignBottom="@+id/radioButton3"
+                android:layout_alignParentRight="true"
+                android:text="Image4" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="Change Image" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_launcher" />
+
+</RelativeLayout>
+__________________________________________________________
+MainActivity.java
+
+package com.example.prac17;
+
+import android.app.Activity;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.renderscript.Type;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
+
+public class MainActivity extends Activity implements OnCheckedChangeListener {
+
+    RadioGroup group1, group2;
+    Button gen;
+    ImageView img;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        group1 = (RadioGroup) findViewById(R.id.rg1);
+        group1.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+
+        group2 = (RadioGroup) findViewById(R.id.rg2);
+        group2.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+
+        img = (ImageView) findViewById(R.id.imageView1);
+        
+        gen = (Button) findViewById(R.id.button1);
+        gen.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+               
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        
+        switch (checkedId) {
+            case R.id.radioButton1:
+                img.setImageResource(R.drawable.wpl1);
+                break;
+
+            case R.id.radioButton2:
+                img.setImageResource(R.drawable.wpl2);
+                break;
+
+            case R.id.radioButton3:
+                img.setImageResource(R.drawable.wpl3);
+                break;
+
+            case R.id.radioButton4:
+                img.setImageResource(R.drawable.wpl4);
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+-----------------------------------------------------------------------------
+q2]
+
+activity_main.xml
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/numberInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="Enter a number"
+        android:inputType="number" />
+
+    <RadioGroup
+        android:id="@+id/operationSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/numberInput"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/oddEven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Odd/Even" />
+
+        <RadioButton
+            android:id="@+id/positiveNegative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/oddEven"
+            android:text="Positive/Negative" />
+
+        <RadioButton
+            android:id="@+id/square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/positiveNegative"
+            android:text="Square" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/operationSelection"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Calculate" />
+
+    <TextView
+        android:id="@+id/answerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calculateButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Answer:"
+        android:textSize="20sp" />
+</RelativeLayout>
+_____________________________________________
+MainActivity.java
+
+package com.example.slip22;
+
+import android.os.Bundle;
+        import android.view.View;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.RadioButton;
+        import android.widget.RadioGroup;
+        import android.widget.TextView;
+
+        import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText numberInput;
+    RadioGroup operationSelection;
+    Button calculateButton;
+    TextView answerTextView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        numberInput = findViewById(R.id.numberInput);
+        operationSelection = findViewById(R.id.operationSelection);
+        calculateButton = findViewById(R.id.calculateButton);
+        answerTextView = findViewById(R.id.answerTextView);
+
+        calculateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculate();
+            }
+        });
+    }
+
+    private void calculate() {
+        int number = Integer.parseInt(numberInput.getText().toString());
+        int selectedOperationId = operationSelection.getCheckedRadioButtonId();
+
+        if (selectedOperationId == R.id.oddEven) {
+            if (number % 2 == 0) {
+                answerTextView.setText("Answer: Even");
+            } else {
+                answerTextView.setText("Answer: Odd");
+            }
+        } else if (selectedOperationId == R.id.positiveNegative) {
+            if (number >= 0) {
+                answerTextView.setText("Answer: Positive");
+            } else {
+                answerTextView.setText("Answer: Negative");
+            }
+        } else if (selectedOperationId == R.id.square) {
+            int square = number * number;
+            answerTextView.setText("Answer: " + square);
+        }
+    }
+}
+

@@ -1,0 +1,241 @@
+//slip 20 
+
+q1]
+
+package com.pd.assignment12;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+
+        private EditText editTextNumber1;
+        private EditText editTextNumber2;
+        private Button buttonSubmit;
+        private TextView textViewNumbers;
+
+        @Override
+        protected void onCreate (Bundle savedInstanceState){
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            editTextNumber1 = findViewById(R.id.editTextNumber1);
+            editTextNumber2 = findViewById(R.id.editTextNumber2);
+            buttonSubmit = findViewById(R.id.buttonSubmit);
+            textViewNumbers = findViewById(R.id.textViewNumbers);
+
+            buttonSubmit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String number1Str = editTextNumber1.getText().toString();
+                    String number2Str = editTextNumber2.getText().toString();
+
+                    if (isValidInput(number1Str) && isValidInput(number2Str)) {
+                        int number1 = Integer.parseInt(number1Str);
+                        int number2 = Integer.parseInt(number2Str);
+
+                        if (number1 <= 20 && number2 <= 20) {
+                            textViewNumbers.setText("Number 1: " + number1 + "\nNumber 2: " + number2);
+                        } else {
+                            Toast.makeText(MainActivity.this, "Both numbers should be 20 or less than 20.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+
+        private boolean isValidInput (String input){
+            return input.matches("\\d+") && !input.startsWith("0");
+        }
+    }
+
+___________________________________
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTextNumber1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:hint="Enter number 1"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextNumber2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextNumber1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="Enter number 2"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/buttonSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextNumber2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Submit" />
+
+    <TextView
+        android:id="@+id/textViewNumbers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonSubmit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>
+   
+-----------------------------------------------------------
+q2]
+
+package com.pd.emaildemo;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button button;
+    EditText sendto, subject, body;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        sendto = findViewById(R.id.editText1);
+        subject = findViewById(R.id.editText2);
+        body = findViewById(R.id.editText3);
+        button = findViewById(R.id.button);
+
+
+        button.setOnClickListener(view -> {
+            String emailsend = sendto.getText().toString();
+            String emailsubject = subject.getText().toString();
+            String emailbody = body.getText().toString();
+
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+
+
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{emailsend});
+            intent.putExtra(Intent.EXTRA_SUBJECT, emailsubject);
+            intent.putExtra(Intent.EXTRA_TEXT, emailbody);
+
+            
+            intent.setType("message/rfc822");
+
+
+            startActivity(Intent.createChooser(intent, "Choose an Email client :"));
+        });
+
+  }
+}
+
+_______________________________________________
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+    <!-- Relative Layout -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+
+
+<EditText
+    android:id="@+id/editText1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_marginTop="18dp"
+    android:layout_marginRight="22dp" />
+
+
+<EditText
+    android:id="@+id/editText2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/editText1"
+    android:layout_alignLeft="@+id/editText1"
+    android:layout_marginTop="20dp" />
+
+
+<EditText
+    android:id="@+id/editText3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/editText2"
+    android:layout_alignLeft="@+id/editText2"
+    android:layout_marginTop="30dp" />
+
+
+<TextView
+    android:id="@+id/textView1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/editText1"
+    android:layout_alignBottom="@+id/editText1"
+    android:layout_alignParentLeft="true"
+    android:text="Send To:"
+    android:textColor="#0F9D58" />
+
+<TextView
+    android:id="@+id/textView2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/editText2"
+    android:layout_alignBottom="@+id/editText2"
+    android:layout_alignParentLeft="true"
+    android:text="Email Subject:"
+    android:textColor="#0F9D58" />
+
+<TextView
+    android:id="@+id/textView3"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBaseline="@+id/editText3"
+    android:layout_alignBottom="@+id/editText3"
+    android:text="Email Body:"
+    android:textColor="#0F9D58" />
+
+
+<Button
+    android:id="@+id/button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/editText3"
+    android:layout_alignLeft="@+id/editText3"
+    android:layout_marginLeft="76dp"
+    android:layout_marginTop="20dp"
+    android:text="Send email!!" />
+</RelativeLayout>
+

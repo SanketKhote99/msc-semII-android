@@ -1,0 +1,183 @@
+slip 3
+q1]   
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/checkBtn"
+        android:layout_width="81dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="152dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText,MissingConstraints"
+        tools:layout_editor_absoluteY="238dp" />
+
+    <EditText
+        android:id="@+id/getNum"
+        android:layout_width="94dp"
+        android:layout_height="55dp"
+        android:layout_below="@id/getNum"
+        android:text="TextView"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="152dp"
+        tools:layout_editor_absoluteY="89dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+_____________________________________________
+MainActivity.java
+
+package com.example.armstrong;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+     EditText editText;
+     Button checkBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editText=findViewById(R.id.getNum);
+        checkBtn=findViewById(R.id.checkBtn);
+
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numStr=editText.getText().toString();
+                if (isArmstrong(numStr)) {
+                    Toast.makeText(getApplicationContext(), numStr + " is ArmStrong Number.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),numStr+"is not an Armstrong NUmber",Toast.LENGTH_SHORT).show();
+                }
+
+                }
+
+        });
+    }
+
+    private boolean isArmstrong(String numStr) {
+        int num = Integer.parseInt(numStr);
+        int originalNum = num;
+        int sum = 0;
+        int numDigits = numStr.length();
+
+        while (num > 0) {
+            int digit = num % 10;
+            sum += Math.pow(digit, numDigits);
+            num /= 10;
+        }
+        return sum == originalNum;
+    }
+}
+
+-----------------------------------------------------------------------
+q2]
+activityMain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/editTextPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter phone number"/>
+
+    <Button
+        android:id="@+id/buttonValidate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextPhoneNumber"
+        android:text="Validate"/>
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonValidate"
+        android:paddingTop="16dp"/>
+</RelativeLayout>
+
+_________________________________________________________
+MainActivity.java
+
+package com.example.mtslip3_q2;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final EditText editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
+        Button buttonValidate = findViewById(R.id.buttonValidate);
+        final TextView textViewResult = findViewById(R.id.textViewResult);
+
+        buttonValidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneNumber = editTextPhoneNumber.getText().toString();
+                if (isValidPhoneNumber(phoneNumber)) {
+                    textViewResult.setText("Valid phone number");
+                } else {
+                    textViewResult.setText("Invalid phone number");
+                }
+            }
+        });
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+
+        String[] allowedAreaCodes = {"040", "041", "050", "0400", "044"};
+
+
+        String regex = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            regex = "^(" + String.join("|", allowedAreaCodes) + ")\\d{6,8}$";
+        }
+
+        
+        Pattern pattern = Pattern.compile(regex);
+
+
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        return matcher.matches();
+    }
+}

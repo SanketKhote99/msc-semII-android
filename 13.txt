@@ -1,0 +1,244 @@
+slip 13
+q1]
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+
+<EditText
+    android:id="@+id/newItemEditText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter item name"
+    android:layout_margin="16dp"
+    android:inputType="text" />
+
+<Button
+    android:id="@+id/addButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/newItemEditText"
+    android:layout_alignParentEnd="true"
+    android:text="Insert"
+    android:layout_alignParentRight="true" />
+
+<Button
+    android:id="@+id/searchButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/addButton"
+    android:layout_alignParentEnd="true"
+    android:text="Search"
+    android:layout_alignParentRight="true" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/searchButton"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
+______________________________________________
+MainActivity.java
+
+package com.example.prac20;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ArrayList<String> itemList;
+    private ArrayAdapter<String> adapter;
+    private EditText newItemEditText;
+    private ListView listView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        itemList = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, itemList);
+        listView = findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+        newItemEditText = findViewById(R.id.newItemEditText);
+
+
+        findViewById(R.id.addButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newItem = newItemEditText.getText().toString().trim();
+                if (!newItem.isEmpty()) {
+                    itemList.add(newItem);
+                    adapter.notifyDataSetChanged();
+                    newItemEditText.setText("");
+                }
+            }
+        });
+
+        
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                itemList.remove(position);
+                adapter.notifyDataSetChanged();
+                Toast.makeText(MainActivity.this, "Item deleted", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        
+        findViewById(R.id.searchButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String searchText = newItemEditText.getText().toString().trim();
+                int position = itemList.indexOf(searchText);
+                if (position != -1) {
+                    listView.setSelection(position);
+                    Toast.makeText(MainActivity.this, "Item found", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Item not found", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+}
+
+--------------------------------------------------------------------------
+q2]
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="30sp"
+        android:text="REGISTRATION FORM" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name" />
+
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Address" />
+
+    <EditText
+        android:id="@+id/et_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="phone" />
+
+    <EditText
+        android:id="@+id/et_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Age"
+         />
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register" />
+</LinearLayout>
+__________________________________________________
+MainActivity.java
+
+package com.example.registration;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import java.util.regex.Pattern;
+
+public class MainActivity extends AppCompatActivity {
+    EditText etName, etAddress, etMobile, etAge;
+    Button btnRegister;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        etName = findViewById(R.id.et_name);
+        etAddress = findViewById(R.id.et_address);
+        etMobile = findViewById(R.id.et_mobile);
+        etAge = findViewById(R.id.et_age);
+        btnRegister = findViewById(R.id.btn_register);
+
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etName.getText().toString().trim();
+                String address = etAddress.getText().toString().trim();
+                String mobile = etMobile.getText().toString().trim();
+                String ageStr = etAge.getText().toString().trim();
+
+                if (name.isEmpty() || address.isEmpty() || mobile.isEmpty() || ageStr.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (!isValidMobile(mobile)) {
+                    Toast.makeText(getApplicationContext(), "Invalid mobile number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                
+                int age;
+                try {
+                    age = Integer.parseInt(ageStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Invalid age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (age <= 0 || age > 100) {
+                    Toast.makeText(getApplicationContext(), "Invalid age", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                Toast.makeText(getApplicationContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private boolean isValidMobile(String mobile) {
+        String mobileRegex = "^(?:\\+?\\d{2}[\\s-]?)?(?:\\d{10})$";
+        return Pattern.matches(mobileRegex, mobile);
+    }
+}

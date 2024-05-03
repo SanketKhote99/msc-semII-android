@@ -1,0 +1,341 @@
+slip-24
+q1]
+activity_main.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ED1"
+        android:hint="Enter text: "
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LowerCase"
+        android:id="@+id/lc"
+        android:layout_below="@+id/ED1"
+        android:layout_centerHorizontal="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UpperCase"
+        android:id="@+id/uc"
+        android:layout_below="@+id/lc"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout>
+______________________________________________
+MainActivity.java
+
+package com.mayuresh.slip24_1;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    Button lc,uc;
+    EditText t;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        lc = findViewById(R.id.lc);
+        uc = findViewById(R.id.uc);
+        t = findViewById(R.id.ED1);
+
+        lc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String s = t.getText().toString();
+                Toast.makeText(MainActivity.this, s.toLowerCase(), Toast.LENGTH_SHORT).show();
+                t.setText(null);
+            }
+        });
+
+
+        uc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String s = t.getText().toString();
+                Toast.makeText(MainActivity.this, s.toUpperCase(), Toast.LENGTH_SHORT).show();
+                t.setText(null);
+            }
+        });
+
+    }
+}
+_____________________________________
+build.graddle
+
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.mayuresh.slip24_1'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.mayuresh.slip24_1"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+----------------------------------------------------------------
+q2]
+activitymain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/id"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Enter ID"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name"
+        android:hint="Enter Name"
+        android:layout_below="@+id/id"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/type"
+        android:hint="Enter Type"
+        android:layout_below="@+id/name"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/color"
+        android:hint="Enter Color"
+        android:layout_below="@+id/type"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/color"
+        android:id="@+id/ln">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insert"
+            android:id="@+id/send"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show"
+            android:id="@+id/show"/>
+
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv"
+        android:layout_below="@+id/ln"
+         />
+</RelativeLayout>
+____________________________________________
+MainActivity.java
+
+package com.mayuresh.slip24_2;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mydb db = new mydb(MainActivity.this);
+
+        EditText id, name , type , color;
+        ListView lv;
+        Button show, send ;
+
+        id = findViewById(R.id.id);
+        name = findViewById(R.id.name);
+        type = findViewById(R.id.type);
+        color = findViewById(R.id.color);
+
+        lv = findViewById(R.id.lv);
+
+        show = findViewById(R.id.show);
+        send = findViewById(R.id.send);
+
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ArrayList<String> a = db.getDetails(getApplicationContext());
+
+                ArrayAdapter<String> aa = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1,a);
+
+                lv.setAdapter(aa);
+            }
+        });
+
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String i = id.getText().toString();
+                String n = name.getText().toString();
+                String t= type.getText().toString();
+                String c = color.getText().toString();
+
+                long ret = db.addDetails(i,n,t,c);
+
+                if(ret>=0)
+                    Toast.makeText(MainActivity.this, "Successful", Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(MainActivity.this, "Unsuccessful", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+}
+__________________________________________
+mydb.java
+
+package com.mayuresh.slip24_2;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import androidx.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class mydb extends SQLiteOpenHelper {
+    public mydb(Context context) {
+        super(context, "Car", null, 1);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL("CREATE TABLE CAR( CID TEXT PRIMARY KEY, CNAME TEXT, CTYPE TEXT , COLOR TEXT)");
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
+    {
+
+    }
+
+    public long addDetails(String id, String name, String type, String color)
+    {
+        long retval;
+        ContentValues cv  = new ContentValues();
+        cv.put("CID",id);
+        cv.put("CNAME",name);
+        cv.put("CTYPE",type);
+        cv.put("COLOR",color);
+        SQLiteDatabase db = this.getWritableDatabase();
+        retval = db.insert("CAR",null,cv);
+       return retval;
+    }
+
+    public ArrayList<String> getDetails(Context ccc)
+    {
+        String s = "SELECT * FROM CAR";
+        ArrayList<String> a = new ArrayList<String>( );
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery(s,null);
+        if(c.getCount()>0)
+        {
+            c.moveToFirst();
+            do {
+                String id = c.getString(c.getColumnIndexOrThrow("CID"));
+                String name = c.getString(c.getColumnIndexOrThrow("CNAME"));
+                String type = c.getString(c.getColumnIndexOrThrow("CTYPE"));
+                String color= c.getString(c.getColumnIndexOrThrow("COLOR"));
+
+                String cc = id+" "+name+" "+type+" "+color;
+                a.add(cc);
+            }while(c.moveToNext());
+
+        }
+        return  a;
+    }
+}
+

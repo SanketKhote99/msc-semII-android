@@ -1,0 +1,194 @@
+slip 15
+q1]
+xml file
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/num1EditText"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="44dp"
+        android:hint="Enter number 1"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/num2EditText"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:hint="Enter number 2"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num1EditText"/>
+
+
+    <Button
+        android:id="@+id/addBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="28dp"
+        android:text="+"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num2EditText" />
+
+    <Button
+        android:id="@+id/subtractBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="-"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/multiplyBtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/addBtn"
+        app:layout_constraintTop_toBottomOf="@+id/num2EditText" />
+
+    <Button
+        android:id="@+id/multiplyBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="104dp"
+        android:text="*"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/num2EditText" />
+
+    <Button
+        android:id="@+id/divideBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="304dp"
+        android:layout_marginTop="24dp"
+        android:text="/"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addBtn" />
+
+    <TextView
+        android:id="@+id/resultTextview"
+        android:layout_width="84dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="56dp"
+        android:text="Result:"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divideBtn" />
+
+__________________________________________________________
+MainActivity.java
+
+
+package com.example.calculator;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.example.myapplication.R;
+
+public class MainActivity extends AppCompatActivity {
+    private TextView num1EditText,num2EditText;
+    private TextView resultTextView;
+    private Button addBtn,subtractBtn,multiplyBtn,divideBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        num1EditText = (TextView) findViewById(R.id.num1EditText);
+        num2EditText = (TextView) findViewById(R.id.num2EditText);
+
+        resultTextView = (TextView) findViewById(R.id.resultTextview);
+
+        addBtn = (Button) findViewById(R.id.addBtn);
+        subtractBtn = (Button) findViewById(R.id.subtractBtn);
+
+        multiplyBtn = (Button) findViewById(R.id.multiplyBtn);
+        divideBtn = (Button) findViewById(R.id.divideBtn);
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performCalculation('+');
+            }
+        });
+        subtractBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performCalculation('-');
+            }
+        });
+        multiplyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performCalculation('*');
+            }
+        });
+        divideBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                performCalculation('/');
+            }
+        });
+    }
+
+    private void performCalculation(char opertor)
+    {
+        String num1=num1EditText.getText().toString();
+        String num2=num2EditText.getText().toString();
+
+        if (num1.isEmpty()||num2.isEmpty())
+        {
+            Toast.makeText(this, "please enter number", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        double n1=Double.parseDouble(num1);
+        double n2=Double.parseDouble(num2);
+
+        double result=0;
+        switch (opertor)
+        {
+            case '+':
+                result=n1+n2;
+                break;
+            case '-':
+                result=n1-n2;
+                break;
+            case '*':
+                result=n1*n2;
+                break;
+            case '/':
+                if (n2!=0)
+                {
+                    result=n1/n2;
+                }
+                else
+                {
+                    Toast.makeText(this, "Number cannot be zero", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                break;
+        }
+        resultTextView.setText("Result:"+result);
+    }
+}
